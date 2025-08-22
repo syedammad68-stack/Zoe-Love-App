@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZOE — For the love of my life</title>
+<meta name="description" content="A tiny love website for ZOE — made with love by Ammad." />
+<style>
+/* ---------- Base + Theme ---------- */
+:root{
+--bg1:#fff5f7;
+--bg2:#ffe9f0;
+--ink:#0f172a;
+--muted:#475569;
+--rose:#f43f5e;
+--rose-100:#ffe4e6;
+--ring:#ffd6df;
+--card:#ffffff;
+--shadow:0 10px 30px rgba(16,24,40,.06),0 6px 16px rgba(16,24,40,.04);
+--radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+color:var(--ink);
+background: linear-gradient(180deg,var(--bg1),var(--bg2) 35%,#fff 100%);
+-webkit-font-smoothing:antialiased;
+text-rendering: optimizeLegibility;
+}
+a{color:inherit}
+.container{max-width:1120px;margin:0 auto;padding:0 16px}
+.btn{
+display:inline-flex;align-items:center;gap:8px;
+padding:10px 16px;border-radius:999px;border:1px solid #e5e7eb;
+background:#fff;cursor:pointer;font-weight:600;
+box-shadow:0 1px 2px rgba(0,0,0,.04);
+transition:transform .12s ease, background .2s ease, border-color .2s ease;
+user-select:none
+}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #e5e7eb;font-size:12px;color:#334155}
+.shadow{box-shadow:var(--shadow)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #f1f5f9}
+.section{padding:64px 0}
+.title{font-size:44px;letter-spacing:-.02em;line-height:1.05;margin:0}
+.subtitle{margin:10px 0 0 0;color:var(--muted);font-size:18px}
+.muted{color:var(--muted)}
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns: 1fr 1fr}
+.grid-4{grid-template-columns: repeat(4, 1fr)}
+@media (max-width: 860px){.grid-2{grid-template-columns: 1fr} .grid-4{grid-template-columns: repeat(2,1fr)} .title{font-size:36px}}
+@media (max-width: 460px){.title{font-size:32px}}
+/* ---------- Navbar ---------- */
+.nav{
+position:sticky;top:0;z-index:30;backdrop-filter: blur(8px);
+background:rgba(255,255,255,.6);border-bottom:1px solid rgba(241,245,249,.8)
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700}
+.heart{width:18px;height:18px}
+.nav-items{display:flex;gap:4px}
+@media (max-width: 640px){
+.nav-items{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(255,255,255,.9);flex-direction:column;padding:10px;gap:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);border-radius:0 0 15px 15px;}
+.nav-items.active{display:flex;}
+}
+.hamburger {
+display: none;
+flex-direction: column;
+cursor: pointer;
+padding: 5px;
+}
+@media (max-width: 640px) {
+.hamburger {
+display: flex;
+}
+}
+.hamburger span {
+width: 25px;
+height: 3px;
+background: var(--ink);
+margin: 3px 0;
+transition: 0.3s;
+border-radius: 3px;
+}
+.hamburger.active span:nth-child(1) {
+transform: rotate(-45deg) translate(-5px, 6px);
+}
+.hamburger.active span:nth-child(2) {
+opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+transform: rotate(45deg) translate(-5px, -6px);
+}
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;padding:64px 0 36px}
+.bubbles::before,.bubbles::after{
+content:"";position:absolute;border-radius:999px;filter: blur(40px);opacity:.6;z-index:-1
+}
+.bubbles::before{width:320px;height:320px;background:#fecdd3;top:-80px;left:-80px}
+.bubbles::after{width:320px;height:320px;background:#fbcfe8;bottom:-100px;right:-120px}
+.scroll-hint{margin-top:24px; color:#475569; font-size:14px; display:flex;flex-direction:column;align-items:center}
+.chev{width:24px;height:24px;animation:bounce 1.2s infinite ease-in-out}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* ---------- Timeline ---------- */
+.dot{position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:999px;background:var(--rose)}
+.timeline-item{position:relative;padding-left:20px}
+/* ---------- Gallery ---------- */
+.gallery{display:grid;gap:12px;grid-template-columns: repeat(4,1fr)}
+.tile{aspect-ratio:1/1;overflow:hidden;border-radius:18px;border:1px solid var(--rose-100);position:relative}
+.tile img{width:100%;height:100%;object-fit:cover;transition: transform .35s ease}
+.tile:hover img{transform:scale(1.05)}
+@media (max-width: 860px){.gallery{grid-template-columns: repeat(2,1fr)}}
+@media (max-width: 480px){.gallery{grid-template-columns: 1fr}}
+/* ---------- Letter ---------- */
+.letter{white-space:pre-wrap;line-height:1.7;font-size:18px}
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:100}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{width:100%;max-width:560px;transform:scale(.96);opacity:0;transition:transform .2s ease, opacity .2s ease;max-height:90vh;overflow-y:auto}
+.overlay.open .modal{transform:scale(1);opacity:1}
+@media (max-width: 640px) {
+.modal{width:95%;max-height:85vh;}
+}
+/* ---------- Utilities ---------- */
+.center{text-align:center}
+.mt-8{margin-top:32px}.mt-6{margin-top:24px}.mt-4{margin-top:16px}.mt-2{margin-top:8px}
+.pb-12{padding-bottom:48px}
+.footer{padding:40px 0 64px;color:#64748b;font-size:14px}
+/* Fade-in on view */
+.reveal{opacity:0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease}
+.reveal.visible{opacity:1; transform:none}
+</style>
+<style>
+:root{
+--bg1:#0d0d0d;
+--bg2:#1a1a1a;
+--ink:#ffffff;
+--muted:#d1d5db;
+--rose:#800000;
+--rose-100:#4d0000;
+--ring:#990000;
+--card:#1a1a1a;
+--shadow:0 10px 30px rgba(0,0,0,.6),0 6px 16px rgba(0,0,0,.4);
+--radius:22px;
+}
+body {
+background: linear-gradient(180deg,var(--bg1),var(--bg2) 35%,#000 100%);
+}
+.btn:hover {
+box-shadow: 0 0 8px var(--rose);
+}
+.btn.primary:hover {
+background: var(--rose);
+box-shadow: 0 0 10px var(--rose);
+}
+.dropdown {
+position: relative;
+display: inline-block;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #1a1a1a;
+min-width: 220px;
+box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+z-index: 1;
+border-radius: 12px;
+overflow: hidden;
+}
+.dropdown-content a {
+color: white;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+.dropdown-content a:hover {
+background-color: var(--rose);
+}
+@media (min-width: 641px) {
+.dropdown:hover .dropdown-content {
+display: block;
+}
+}
+@media (max-width: 640px) {
+.dropdown-content {
+position: static;
+display: none;
+width: 100%;
+box-shadow: none;
+background-color: rgba(26, 26, 26, 0.9);
+border-radius: 8px;
+margin-top: 5px;
+}
+.dropdown.active .dropdown-content {
+display: block;
+}
+.dropdown {
+width: 100%;
+}
+.dropdown > .btn {
+width: 100%;
+justify-content: space-between;
+}
+.dropdown > .btn::after {
+content: '▼';
+font-size: 12px;
+}
+.dropdown.active > .btn::after {
+content: '▲';
+}
+}
+/* Scrollable modal styles */
+.modal-content {
+max-height: 70vh;
+overflow-y: auto;
+padding-right: 10px;
+}
+.modal-footer {
+margin-top: 20px;
+text-align: right;
+position: sticky;
+bottom: 0;
+background: var(--card);
+padding-top: 15px;
+border-top: 1px solid rgba(255,255,255,0.1);
+}
+/* Custom scrollbar */
+.modal-content::-webkit-scrollbar {
+width: 8px;
+}
+.modal-content::-webkit-scrollbar-track {
+background: rgba(255,255,255,0.1);
+border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+background: var(--rose);
+border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+background: var(--rose-100);
+}
+/* Certificate styles */
+.certificate-container {
+  background: linear-gradient(135deg, #f8e6ff, #e6f0ff);
+  border: 10px solid #9d4edd;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  color: #240046;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.certificate-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(157, 78, 221, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 80% 70%, rgba(157, 78, 221, 0.1) 0%, transparent 20%);
+  z-index: 0;
+}
+.certificate-content {
+  position: relative;
+  z-index: 1;
+}
+.certificate-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #5a189a;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+@media (max-width: 640px) {
+.certificate-title {
+  font-size: 28px;
+}
+}
+.certificate-subtitle {
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-style: italic;
+  color: #7b2cbf;
+}
+@media (max-width: 640px) {
+.certificate-subtitle {
+  font-size: 20px;
+}
+}
+.certificate-recipient {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 25px 0;
+  color: #240046;
+  text-decoration: underline;
+  text-decoration-color: #9d4edd;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+@media (max-width: 640px) {
+.certificate-recipient {
+  font-size: 24px;
+}
+}
+.certificate-date {
+  font-size: 20px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #5a189a;
+}
+.certificate-message {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 25px 0;
+  text-align: justify;
+  color: #240046;
+}
+@media (max-width: 640px) {
+.certificate-message {
+  font-size: 16px;
+}
+}
+.certificate-signature {
+  font-size: 22px;
+  margin-top: 30px;
+  font-weight: bold;
+  color: #5a189a;
+}
+.certificate-decoration {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  opacity: 0.2;
+  z-index: 0;
+}
+.certificate-decoration.top-left {
+  top: -30px;
+  left: -30px;
+  border: 4px solid #9d4edd;
+  border-radius: 50%;
+}
+.certificate-decoration.bottom-right {
+  bottom: -30px;
+  right: -30px;
+  border: 4px solid #9d4edd;
+  border-radius: 50%;
+}
+.certificate-border {
+  border: 2px dashed #9d4edd;
+  padding: 20px;
+  margin: 15px 0;
+  position: relative;
+}
+.certificate-border::before, .certificate-border::after {
+  content: "❤️";
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.7;
+}
+.certificate-border::before {
+  top: -15px;
+  left: 20px;
+}
+.certificate-border::after {
+  bottom: -15px;
+  right: 20px;
+}
+/* Love Coupon styles */
+.coupon-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+@media (max-width: 640px) {
+.coupon-container {
+  grid-template-columns: 1fr;
+}
+}
+.coupon {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.coupon:hover {
+  transform: translateY(-5px);
+}
+.coupon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  border-bottom: 1px dashed rgba(255,255,255,0.5);
+}
+.coupon-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px 0;
+  color: #333;
+}
+.coupon-expire {
+  font-size: 14px;
+  color: #555;
+  margin-top: 15px;
+  letter-spacing: 1px;
+}
+.coupon-heart {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px;
+  opacity: 0.3;
+}
+.coupon-blank {
+  background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+  border: 2px dashed #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-style: italic;
+}
+.coupon-blank::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+/* Love Coupon Booklet styles */
+.coupon-booklet {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.coupon-booklet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.coupon-booklet-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+@media (max-width: 640px) {
+.coupon-booklet-title {
+  font-size: 24px;
+}
+}
+.coupon-booklet-subtitle {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: #555;
+  text-align: center;
+  font-style: italic;
+}
+.coupon-booklet-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+@media (max-width: 640px) {
+.coupon-booklet-items {
+  grid-template-columns: 1fr;
+}
+}
+.coupon-booklet-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+.coupon-booklet-item:hover {
+  transform: scale(1.02);
+}
+.coupon-booklet-item-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+.coupon-booklet-item-desc {
+  font-size: 14px;
+  color: #555;
+}
+.coupon-booklet-footer {
+  margin-top: 25px;
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+.coupon-booklet-signature {
+  margin-top: 20px;
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+}
+/* Love Menu styles */
+.love-menu {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+.love-menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.love-menu-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #800000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+.love-menu-title {
+  font-size: 24px;
+}
+}
+.love-menu-subtitle {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: #555;
+  text-align: center;
+  font-style: italic;
+}
+.love-menu-section {
+  margin-bottom: 25px;
+}
+.love-menu-section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #800000;
+  text-transform: uppercase;
+  border-bottom: 1px dashed rgba(128, 0, 0, 0.3);
+  padding-bottom: 5px;
+}
+@media (max-width: 640px) {
+.love-menu-section-title {
+  font-size: 20px;
+}
+}
+.love-menu-item {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+@media (max-width: 640px) {
+.love-menu-item {
+  flex-direction: column;
+}
+}
+.love-menu-item-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  flex: 1;
+}
+.love-menu-item-description {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  font-style: italic;
+}
+.love-menu-item-tag {
+  background: rgba(128, 0, 0, 0.1);
+  color: #800000;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+.love-menu-item-tag {
+  margin-left: 0;
+  margin-top: 5px;
+  display: inline-block;
+}
+}
+.love-menu-notes {
+  margin-top: 30px;
+  padding: 15px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 10px;
+  border: 1px dashed rgba(128, 0, 0, 0.3);
+}
+.love-menu-notes-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #800000;
+}
+.love-menu-notes-item {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+}
+.love-menu-footer {
+  margin-top: 20px;
+  text-align: right;
+  font-style: italic;
+  color: #555;
+}
+/* Love Brusher styles */
+.love-brusher {
+  background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+.love-brusher::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.love-brusher-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #800000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+.love-brusher-title {
+  font-size: 24px;
+}
+}
+.love-brusher-subtitle {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: #555;
+  text-align: center;
+  font-style: italic;
+}
+.love-brusher-promise {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #800000;
+  text-align: center;
+  font-style: italic;
+}
+@media (max-width: 640px) {
+.love-brusher-promise {
+  font-size: 18px;
+}
+}
+.love-brusher-section {
+  margin-bottom: 25px;
+}
+.love-brusher-section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #800000;
+  text-transform: uppercase;
+  border-bottom: 1px dashed rgba(128, 0, 0, 0.3);
+  padding-bottom: 5px;
+}
+@media (max-width: 640px) {
+.love-brusher-section-title {
+  font-size: 20px;
+}
+}
+.love-brusher-item {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+@media (max-width: 640px) {
+.love-brusher-item {
+  flex-direction: column;
+}
+}
+.love-brusher-item-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  flex: 1;
+}
+.love-brusher-item-price {
+  font-weight: bold;
+  color: #800000;
+  margin-left: 15px;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+.love-brusher-item-price {
+  margin-left: 0;
+  margin-top: 5px;
+}
+}
+.love-brusher-item-description {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  font-style: italic;
+}
+.love-brusher-special {
+  background: rgba(255,215,0,0.1);
+  border: 1px dashed rgba(255,215,0,0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+.love-brusher-special-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #800000;
+  margin-bottom: 10px;
+}
+.love-brusher-special-desc {
+  font-size: 16px;
+  color: #555;
+}
+.love-brusher-offer {
+  background: rgba(255,0,0,0.05);
+  border: 1px dashed rgba(255,0,0,0.2);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 20px 0;
+}
+.love-brusher-offer-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #800000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.love-brusher-offer-item {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+}
+.love-brusher-contact {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+}
+.love-brusher-contact-item {
+  margin-bottom: 5px;
+}
+.love-brusher-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+/* With You Note styles */
+.with-you-note {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+.with-you-note::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.with-you-note-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #800000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+.with-you-note-title {
+  font-size: 24px;
+}
+}
+.with-you-note-content {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: #333;
+}
+@media (max-width: 640px) {
+.with-you-note-content {
+  font-size: 16px;
+}
+}
+.with-you-note-section {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 10px;
+  border: 1px dashed rgba(128, 0, 0, 0.3);
+}
+.with-you-note-section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #800000;
+  text-align: center;
+}
+.with-you-note-emphasis {
+  font-weight: bold;
+  color: #800000;
+}
+.with-you-note-signature {
+  margin-top: 30px;
+  text-align: right;
+  font-style: italic;
+  font-size: 20px;
+  color: #800000;
+}
+/* Love Note Style - Standard for all text dropdowns */
+.love-note {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+.love-note::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.love-note-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #800000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+.love-note-title {
+  font-size: 24px;
+}
+}
+.love-note-content {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: #333;
+}
+@media (max-width: 640px) {
+.love-note-content {
+  font-size: 16px;
+}
+}
+.love-note-signature {
+  margin-top: 30px;
+  text-align: right;
+  font-style: italic;
+  font-size: 20px;
+  color: #800000;
+}
+.love-note-emphasis {
+  font-weight: bold;
+  color: #800000;
+}
+/* PDF/JPEG Viewer Style */
+.file-viewer {
+  background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.file-viewer-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #800000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+.file-viewer-title {
+  font-size: 24px;
+}
+}
+.file-viewer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  border: 2px dashed rgba(128, 0, 0, 0.3);
+  min-height: 300px;
+}
+.file-viewer-placeholder {
+  font-size: 24px;
+  color: #555;
+  margin-bottom: 20px;
+}
+@media (max-width: 640px) {
+.file-viewer-placeholder {
+  font-size: 20px;
+}
+}
+.file-viewer-description {
+  font-size: 16px;
+  color: #777;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.file-viewer-download {
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<!-- NAVBAR -->
+<div class="nav">
+<div class="container nav-inner">
+<div class="brand">
+<svg class="heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.197 2.25 12.31 2.25 8.977 2.25 6.192 4.487 4 7.125 4c1.54 0 2.887.626 3.87 1.64l.007.007.007-.007C12.99 4.626 14.343 4,15.885 4c2.636 0 4.875 2.192 4.875 4.977 0 3.334-2.438 6.22-4.739 8.53a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.003-.003.002a.75.75 0 01-.704 0l-.003-.002z"/></svg>
+<span>For ZOE</span>
+</div>
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+<div class="nav-items" id="nav-items">
+<button class="btn" data-scroll="#story">Our Story</button>
+<button class="btn" data-scroll="#gallery">Gallery</button>
+<button class="btn" data-scroll="#letter">Letter</button>
+<div class="dropdown" id="dropdown1">
+<button class="btn">❤️ Past Surprises</button>
+<div class="dropdown-content">
+<a href="#" onclick="showLoveNote(); return false;">💌My Love Note</a>
+<a href="#" onclick="showLoveAgreement(); return false;">📜Love Agreement</a>
+<a href="#" onclick="showLoveCertificate(); return false;">🏆Love Certificate</a>
+<a href="#" onclick="showLoveCoupon(); return false;">🎟️Love Coupon</a>
+<a href="#" onclick="showLoveMenu(); return false;">🍽️Love Menu</a>
+<a href="#" onclick="showLoveBrusher(); return false;">🪥Love Brusher</a>
+<a href="#" onclick="showFileViewer('currency'); return false;">💸Love Currency Note</a>
+<a href="#" onclick="showFileViewer('journey'); return false;">📖Our Journey – The Book</a>
+<a href="#" onclick="showWithYouNote(); return false;">📝With You Note</a>
+</div>
+</div>
+<div class="dropdown" id="dropdown2">
+<button class="btn">Poetry</button>
+<div class="dropdown-content">
+<a href="#" onclick="showPoetry('udas'); return false;">✒️Jab Wo Udaas Hoti Hai</a>
+<a href="#" onclick="showPoetry('soona'); return false;">✒️Soona Hai Mera Jahaan</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- HERO -->
+<section class="hero bubbles">
+<div class="container center">
+<h1 class="title">ZOE</h1>
+<p class="subtitle">For the love of my life since 17 NOV 2009</p>
+<div class="mt-6">
+<button class="btn" data-scroll="#story">Explore our story
+<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 4.5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5h-5a1 1 0 110-2h5v-5a1 1 0 011-1z"/></svg>
+</button>
+<button class="btn" id="open-secret-2">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75a6.25 6.25 0 00-6.25 6.25v2.5H4a2.25 2.25 0 00-2.25 2.25v6A2.25 2.25 0 004 21h16a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0020 10.5h-1.75V8a6.25 6.25 0 00-6.25-6.25zM8.5 8a3.5 3.5 0 117 0v2.5h-7V8z"/></svg>
+Open Secret
+</button>
+</div>
+<div class="scroll-hint">
+<div>Scroll</div>
+<svg class="chev" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16.5a.75.75 0 01-.53-.22l-6-6a.75.75 0 111.06-1.06L12 14.69l5.47-5.47a.75.75 0 111.06 1.06l-6 6a.75.75 0 01-.53.22z"/></svg>
+</div>
+</div>
+</section>
+<!-- STORY / TIMELINE + GALLERY -->
+<section id="story" class="section">
+<div class="container grid grid-2">
+<div class="card" style="padding:22px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.197 2.25 12.31 2.25 8.977 2.25 6.192 4.487 4 7.125 4c1.54 0 2.887.626 3.87 1.64l.007.007.007-.007C12.99 4.626 14.343 4,15.885 4c2.636 0 4.875 2.192 4.875 4.977 0 3.334-2.438 6.22-4.739 8.53a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.003-.003.002a.75.75 0 01-.704 0l-.003-.002z"/></svg>
+<h2 style="margin:0;font-size:24px">Our Story</h2>
+</div>
+<p class="muted mt-2">Moments that made us—more to come.</p>
+<div class="mt-6">
+<div class="timeline-item reveal"><span class="dot"></span><div class="muted" style="font-weight:600;color:#e11d48">The Day We Met</div><div>Beautiful day of November date was 17</div></div>
+<div class="timeline-item reveal mt-4"><span class="dot"></span><div class="muted" style="font-weight:600;color:#e11d48">First Coffee</div><div>Cold coffee on Malbrew</div></div>
+<div class="timeline-item reveal mt-4"><span class="dot"></span><div class="muted" style="font-weight:600;color:#e11d48">Our Big Promise</div><div>Be always with each other no matter what happened</div></div>
+<div class="timeline-item reveal mt-4"><span class="dot"></span><div class="muted" style="font-weight:600;color:#e11d48">Forever On</div><div>Every sunrise is sweeter with you.</div></div>
+</div>
+</div>
+<div class="card" style="padding:22px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25v10.5A2.25 2.25 0 0119.5 19.5h-15A2.25 2.25 0 012.25 17.25V6.75zM4.5 6.75v.9l3.255 2.17a2.25 2.25 0 002.49 0l2.46-1.64a2.25 2.25 0 012.49 0l4.305 2.87v-4.3H4.5z"/></svg>
+<h2 style="margin:0;font-size:24px">Moments Gallery</h2>
+</div>
+<p class="muted mt-2">Swap these with your favorite photos.</p>
+<div id="gallery" class="gallery mt-4">
+<!-- Four embedded SVG placeholders (offline) -->
+<div class="tile reveal"><img alt="Hands intertwined" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23fecdd3'/><stop offset='1' stop-color='%23fbcfe8'/></linearGradient></defs><rect width='800' height='800' fill='url(%23g1)'/><g fill='%23ffffff' opacity='0.7'><circle cx='200' cy='220' r='60'/><circle cx='260' cy='220' r='60'/><path d='M200 220 Q230 260 260 220 Q230 300 200 220 Z' /></g><text x='50' y='760' font-family='Verdana' font-size='36' fill='%23ffffffaa'>Placeholder — Love</text></svg>"/></div>
+<div class="tile reveal"><img alt="Sunset silhouette" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><defs><linearGradient id='g2' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23ffe4e6'/><stop offset='1' stop-color='%23fecaca'/></linearGradient></defs><rect width='800' height='800' fill='url(%23g2)'/><path d='M0 600 Q200 540 400 600 T800 600 L800 800 L0 800 Z' fill='%23fb7185'/><circle cx='600' cy='220' r='80' fill='%23fda4af' opacity='.8'/></svg>"/></div>
+<div class="tile reveal"><img alt="Laughing together" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><rect width='800' height='800' fill='%23ffe4e6'/><rect x='120' y='160' width='560' height='440' rx='28' fill='%23ffffffcc'/><circle cx='300' cy='360' r='70' fill='%23fecdd3'/><circle cx='500' cy='360' r='70' fill='%23fbcfe8'/><path d='M280 460 Q400 520 520 460' stroke='%23fb7185' stroke-width='16' fill='none' stroke-linecap='round'/></svg>"/></div>
+<div class="tile reveal"><img alt="City lights date" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><rect width='800' height='800' fill='%23ffe4e6'/><g fill='%23fda4af'><rect x='80' y='520' width='80' height='180'/><rect x='200' y='460' width='120' height='240'/><rect x='360' y='500' width='100' height='200'/><rect x='500' y='440' width='160' height='260'/><rect x='690' y='520' width='60' height='180'/></g><g fill='%23ffffffaa'><rect x='210' y='480' width='12' height='18'/><rect x='230' y='520' width='12' height='18'/><rect x='550' y='480' width='12' height='18'/><rect x='580' y='560' width='12' height='18'/><rect x='610' y='600' width='12' height='18'/></g></svg>"/></div>
+</div>
+<p class="muted mt-2" style="font-size:13px">Hint: keep images under ~300KB for fast loading.</p>
+</div>
+</div>
+</section>
+<!-- LETTER -->
+<section id="letter" class="section">
+<div class="container">
+<div class="card" style="padding:22px;max-width:860px;margin:0 auto">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.25A2.25 2.25 0 013.75 6h16.5A2.25 2.25 0 0122.5 8.25v7.5A2.25 2.25 0 0120.25 18H3.75A2.25 2.25 0 011.5 15.75v-7.5zM3 7.5l8.4 5.6a1.5 1.5 0 001.7 0L21 7.5"/></svg>
+<h2 style="margin:0;font-size:24px">A Letter for You</h2>
+</div>
+<p class="muted mt-2">From Ammad, with all his heart.</p>
+<div class="letter mt-4">
+My ZOE,
+I feel BLESSED when I think about that time when I first saw you I always thankful to ALLAH Almighty for having you in my life, my life is INCOMPLETE WITHOUT YOU, Thank you for choosing me, thank you for being a part of my life, thank you for everything
+— Ammad
+</div>
+</div>
+</div>
+</section>
+<!-- SECRET MODAL -->
+<div class="overlay" id="secret">
+<div class="modal card" style="padding:22px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75a6.25 6.25 0 00-6.25 6.25v2.5H4a2.25 2.25 0 00-2.25 2.25v6A2.25 2.25 0 004 21h16a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0020 10.5h-1.75V8a6.25 6.25 0 00-6.25-6.25zM8.5 8a3.5 3.5 0 117 0v2.5h-7V8z"/></svg>
+<h2 style="margin:0;font-size:24px">Secret for ZOE</h2>
+</div>
+<p class="muted mt-2">A little hidden note.</p>
+<div class="mt-4" style="line-height:1.7">
+ZOE, you are my favorite place to be.
+I planned more surprises ahead—this is only Chapter One.
+</div>
+<div class="mt-6" style="display:flex;justify-content:flex-end;gap:8px">
+<button class="btn" id="close-secret">Close</button>
+<button class="btn primary" id="close-secret-2">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27l6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+Got it
+</button>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="footer center">
+Hand-crafted with ♥ for ZOE • <span class="muted">Made by Ammad</span>
+</footer>
+<script>
+// Mobile menu toggle
+const hamburger = document.getElementById('hamburger');
+const navItems = document.getElementById('nav-items');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navItems.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-items .btn').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navItems.classList.remove('active');
+  });
+});
+
+// Dropdown functionality for mobile
+const dropdowns = document.querySelectorAll('.dropdown');
+dropdowns.forEach(dropdown => {
+  const button = dropdown.querySelector('.btn');
+  
+  // For mobile: toggle dropdown on click
+  if (window.innerWidth <= 640) {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      dropdown.classList.toggle('active');
+    });
+  }
+});
+
+// Smooth scroll for buttons with data-scroll
+document.querySelectorAll('[data-scroll]').forEach(btn => {
+btn.addEventListener('click', e => {
+const id = btn.getAttribute('data-scroll');
+const el = document.querySelector(id);
+if(el){ el.scrollIntoView({behavior:'smooth'}); }
+});
+});
+// Secret modal open/close
+const overlay = document.getElementById('secret');
+function openSecret(){ overlay.classList.add('open'); }
+function closeSecret(){ overlay.classList.remove('open'); }
+document.getElementById('open-secret')?.addEventListener('click', openSecret);
+document.getElementById('open-secret-2')?.addEventListener('click', openSecret);
+document.getElementById('close-secret')?.addEventListener('click', closeSecret);
+document.getElementById('close-secret-2')?.addEventListener('click', closeSecret);
+overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeSecret(); });
+// Reveal on scroll (IntersectionObserver)
+const io = new IntersectionObserver((entries)=>{
+for(const ent of entries){
+if(ent.isIntersecting){ ent.target.classList.add('visible'); io.unobserve(ent.target); }
+}
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function showPoetry(type) {
+const modal = document.getElementById('poetryModal');
+const title = document.getElementById('poetryTitle');
+const content = document.getElementById('poetryContent');
+if (type === 'udas') {
+title.textContent = 'Jab Wo Udaas Hoti Hai';
+content.innerHTML = `
+<div class="love-note">
+<div class="love-note-title">Jab Wo Udaas Hoti Hai</div>
+<div class="love-note-content">
+Har chez har shay bekar hoti hai<br>
+Rang sare be rang hoty hain<br>
+Kushboo madham hoti hai<br>
+Roshni bs khatm hoti hai<br>
+Na dil m koi umang hoti hai<br>
+Hawaen chalti nahi hain<br>
+Sooraj m bilkul chamak nh hai<br>
+Chaand chup jata hai kahe nazar nhi ata<br>
+Kse parinday ko apne ghr ka rasta nahi ata<br>
+Keeray makoray tw bhatak he jaty hain apni manzilen<br>
+Janwaro ko bhi kch smjh nhi aata<br>
+Kushiya sari pheeki si lgti hain<br>
+Koi bhi is dil ko nh bhaata<br>
+Be ronaq ho jati hain sari roshniya<br>
+Ujaalay m bhi kse ko kch nazar nahi aata<br>
+Zaiqa nahi rehta kse man-O-salwa m<br>
+Kch khane ka kse ka bh dil nh chahta<br>
+Samandar thaam leta hai apni rawani<br>
+Zeer-E-aab rehne walo ko bhi kch smjh nhi aata<br>
+Sookh jaty hain sare sary darya or nehren<br>
+Jheel or jharno m bhi kch nazr nhi aata<br>
+Kya he btaw m or is bare m<br>
+Jab wo udas hoti hai tw kch smjh nh ataaa…
+</div>
+<div class="love-note-signature">- Ammad</div>
+</div>
+`;
+} else if (type === 'soona') {
+title.textContent = 'Soona Hai Mera Jahaan';
+content.innerHTML = `
+<div class="love-note">
+<div class="love-note-title">Soona Hai Mera Jahaan</div>
+<div class="love-note-content">
+Soona hai mera jahaan jb sy wo khamosh hai<br>
+Kuch nahi lagta mera apna jb sy wo khamosh hai<br>
+Awaz os ki jese rang bhar dy zindagi main<br>
+Sab kch be-Rang sa hai lagta jab sy wo khamosh hai<br>
+Kushiya jese os ki muntazir hain meri<br>
+Hasne ko dil nh krta jab sy wo khamosh hai<br>
+Yaad aati hain ose maazi ki kuch galtiya shayad<br>
+Firq mje faqat is bat sy parta hai k wo khamosh hai<br>
+Kaash m dy paata tw sary jahaan ki kushiya laa k rakh deta os k qadmoo main<br>
+Qaleeja jalta hai mera sirf ek is bat sy k wo khamosh hai<br>
+Jaan waar do m apni k mje Azeez hai o ski ek Muskaan<br>
+Nahi raha jata mjh sy is tarha qk wo khamosh hai
+</div>
+<div class="love-note-signature">- Ammad</div>
+</div>
+`;
+}
+modal.classList.add('open');
+}
+function showLoveNote() {
+const modal = document.getElementById('poetryModal');
+const title = document.getElementById('poetryTitle');
+const content = document.getElementById('poetryContent');
+title.textContent = 'My Love Note';
+content.innerHTML = `
+<div class="love-note">
+<div class="love-note-title">My Love Note</div>
+<div class="love-note-content">
+My LOVE, there are no words that can truly capture the depth of my FEELINGS for you, but I want you to know just how deeply I CHERISH you. You are the HEART of my world, the one who brings LIGHT to my darkest days, and the person who's LOVE makes everything better. With every moment we share, I feel more GRATEFUL for your presence, your KINDNESS, and the way you LOVE me so completely. I PROMISE to always CARE for you, to SUPPORT you, and to STAND by your side, not just as your partner, but as someone who is endlessly in awe of the INCREDIBLE WOMAN you are. You are my EVERYTHING, and I'll LOVE you for all of my days.
+<br><br>
+I may not have wealth or grand possessions to give, but what I offer you is far more precious—my HEART, completely and without RESERVATION. All I can give you is the DEEPEST LOVE that grows with every passing day, an AFFECTION that is unconditional and boundless, and a CARE that will never waver, no matter the circumstances. In your presence, I find a PEACE that fills me, and in your SMILE, I see everything I could ever need. Every moment I spend with you is a GIFT, and my commitment to you is UNSHAKABLE. You are my EVERYTHING, and I PROMISE to cherish you, to SUPPORT you, and to make sure you feel LOVED in every possible way, ALWAYS.
+<br><br>
+<span class="love-note-emphasis">"Your Loving Words That Create Magic"</span><br>
+<span class="love-note-emphasis">"I am a divine blessing from ALLAH, brought into your life with purpose and grace."</span>
+</div>
+<div class="love-note-signature">- Ammad</div>
+</div>
+`;
+modal.classList.add('open');
+}
+function showLoveAgreement() {
+const modal = document.getElementById('poetryModal');
+const title = document.getElementById('poetryTitle');
+const content = document.getElementById('poetryContent');
+title.textContent = 'Love Agreement: My Promise To You';
+content.innerHTML = `
+<div class="love-note">
+<div class="love-note-title">Love Agreement: My Promise To You</div>
+<div class="love-note-content">
+<div style="text-align: center; margin-bottom: 20px;">
+<strong>Preamble:</strong><br>
+Main Tum Sy Apni Zindagi Ka Har Lamha Pyaar Aur Izzat Se Bharne Ka Wada Karta Hoon. Tum Meri Zindagi Ki Princess Ho, Aur Main Tumhe Hamesha Osi Tarha Treat Kro Ga Jo Ek Queen Deserve Karti Hai. Yeh Mera Tumhare Liye Ik Pyaar Bhara Agreement Hai,
+</div>
+<div style="margin-bottom: 20px;">
+<strong>Terms Of My Promise:</strong><br>
+Tmhe Hmesha Samjho Ga Tmhe Bewajah Pyar Kroga<br>
+Tmhara Hmesha Khyl Rakho Ga Tmhe Princess Treatment Do Ga<br>
+Tmhe Palko Pe Bitha K Rkhao Ga Tmhe Bacho Ki Tarha Rkho Ga<br>
+Apna Fayda Uthane Do Ga Tmhara Har Gham Khud Pe Ly Loga<br>
+Tmhe Bina Maange Har Khushi La Doga Tmhe Galti Pe Bhi Gale Laga Loga<br>
+Tmhari Har Baat Samajo Ga Tm Pe Khud Se Zyada Bharosa Rakho Ga
+</div>
+<div style="margin-bottom: 20px;">
+<strong>Important Note:</strong><br>
+Meri Princess Jab Chahy Jaise Chahy Kse Bh Rule Ko Change Kr Skti Hai, Koi Bhi New Rule Bana Skti Hai.
+</div>
+<div style="margin-bottom: 20px;">
+<strong>Closing Statement:</strong><br>
+Yeh Mera Madam Sy Wada Hai. Chahe Madam Kaisi Bhi Ho, Kis Mood Mein Ho, Main Madam Ko Hamesha Apni Princess Hi Samajhunga. Main Hamesha Tumhara Saath Dene, Tumhe Khush Rakhne, Aur Tumhe Apni Duniya Ki Sabse Khaas Shaks Samajhne Ka Wada Karta Hoon.
+</div>
+</div>
+<div class="love-note-signature">- Ammad</div>
+</div>
+`;
+modal.classList.add('open');
+}
+function showLoveCertificate() {
+  const modal = document.getElementById('poetryModal');
+  const title = document.getElementById('poetryTitle');
+  const content = document.getElementById('poetryContent');
+  title.textContent = 'Certificate of Eternal Love';
+  
+  content.innerHTML = `
+    <div class="certificate-container">
+      <div class="certificate-decoration top-left"></div>
+      <div class="certificate-decoration bottom-right"></div>
+      <div class="certificate-content">
+        <div class="certificate-border">
+          <div class="certificate-title">Certificate of Eternal Love</div>
+          
+          <div style="margin: 30px 0;">
+            <p style="font-size: 20px;">Presented to</p>
+            <div class="certificate-recipient">ZOE</div>
+          </div>
+          
+          <div class="certificate-message">
+            For your endless beauty, boundless love, and happiness you bring into my life every day. 
+            This certificate is a testament to my eternal love and commitment to you. 
+            I promise to cherish you, honor you, and love you unconditionally for all the days of my life.
+          </div>
+          
+          <div class="certificate-date">17th day of November, 2009</div>
+          
+          <div style="margin: 30px 0;">
+            <div style="font-size: 22px; font-weight: bold; color: #7b2cbf; margin-bottom: 10px;">
+              The One Who Loves You Forever
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+            <div>
+              <p style="font-size: 16px;">Viewed on:</p>
+              <p>${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="font-size: 16px;">With eternal love,</p>
+              <div class="certificate-signature">Ammad</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+function showLoveCoupon() {
+  const modal = document.getElementById('poetryModal');
+  const title = document.getElementById('poetryTitle');
+  const content = document.getElementById('poetryContent');
+  title.textContent = 'Love Coupon Booklet';
+  
+  content.innerHTML = `
+    <div class="coupon-booklet">
+      <div class="coupon-booklet-title">💕 Love Coupon Booklet 💕</div>
+      <div class="coupon-booklet-subtitle">Redeemable anytime, anywhere, for the one I love</div>
+      
+      <div class="coupon-booklet-items">
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">Breakfast in Bed</div>
+          <div class="coupon-booklet-item-desc">One morning of your favorite breakfast served in bed</div>
+        </div>
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">Movie Night</div>
+          <div class="coupon-booklet-item-desc">Your choice of movie with snacks and cuddles</div>
+        </div>
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">Massage</div>
+          <div class="coupon-booklet-item-desc">A relaxing 30-minute massage of your choice</div>
+        </div>
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">Dinner Date</div>
+          <div class="coupon-booklet-item-desc">A special dinner at your favorite restaurant</div>
+        </div>
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">No Chores Day</div>
+          <div class="coupon-booklet-item-desc">I'll handle all household chores for a full day</div>
+        </div>
+        <div class="coupon-booklet-item">
+          <div class="coupon-booklet-item-title">Surprise Gift</div>
+          <div class="coupon-booklet-item-desc">A thoughtful surprise gift just for you</div>
+        </div>
+      </div>
+      
+      <div class="coupon-booklet-footer">
+        These coupons are redeemable with a hug and a kiss. No expiration date, as my love for you is eternal.
+      </div>
+      
+      <div class="coupon-booklet-signature">
+        With all my love,<br>
+        Ammad
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+function showLoveMenu() {
+  const modal = document.getElementById('poetryModal');
+  const title = document.getElementById('poetryTitle');
+  const content = document.getElementById('poetryContent');
+  title.textContent = 'The Ultimate Love Menu';
+  
+  content.innerHTML = `
+    <div class="love-menu">
+      <div class="love-menu-title">The Ultimate Love Menu</div>
+      <div class="love-menu-subtitle">Hubby BY Ammad</div>
+      
+      <div class="love-menu-section">
+        <div class="love-menu-section-title">Starters</div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SOFT KISSES</div>
+            <div class="love-menu-item-description">A gentle kiss on the cheek to my baby & promise of more to come.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">PLENTY OF COMPLIMENTS</div>
+            <div class="love-menu-item-description">Sweet words of adoration, reminding you just how amazing you are.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">HOLDING HANDS</div>
+            <div class="love-menu-item-description">A simple touch to remind us we're always connected, even in silence.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">FLIRTY TEXTS</div>
+            <div class="love-menu-item-description">A string of playful, loving messages to keep the sparks flying even from afar.</div>
+            <div class="love-menu-item-tag">EXPERT ADVICE</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">PLAYFUL TICKLES</div>
+            <div class="love-menu-item-description">A little laughter-filled tickle to spark the joy of being together.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">FLYING KISSES</div>
+            <div class="love-menu-item-description">A fresh bunch of floating kisses which waving in the air.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-menu-section">
+        <div class="love-menu-section-title">Main Course</div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">LONG, SWEET KISSES</div>
+            <div class="love-menu-item-description">Kisses that last, full of love and tenderness.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SOULFUL CONVERSATIONS</div>
+            <div class="love-menu-item-description">Deep talks about dreams, fears, and everything that makes us "us."</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SLOW DANCE</div>
+            <div class="love-menu-item-description">A moment to hold each other close and feel the rhythm of our hearts.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">CUDDLES</div>
+            <div class="love-menu-item-description">Wrapped in warmth, it's where we find peace in each other's arms.</div>
+            <div class="love-menu-item-tag">RECOMMENDED</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SHARED LAUGHTER</div>
+            <div class="love-menu-item-description">The joy that fills every room when we're together.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">MAGICAL MOMENTS</div>
+            <div class="love-menu-item-description">Long talks about our stupid and memorable moments.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-menu-section">
+        <div class="love-menu-section-title">Dessert</div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">A GOODNIGHT KISS</div>
+            <div class="love-menu-item-description">A soft kiss that marks the end of a beautiful day, but promises more tomorrow.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">WHISPER OF LOVE</div>
+            <div class="love-menu-item-description">Whispered sweet noises that last long after the night is over.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">ENDLESS AFFECTION</div>
+            <div class="love-menu-item-description">The warm care of our love, timeless and constant.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">CUDDLES UNDER THE SHEETS</div>
+            <div class="love-menu-item-description">A perfect night under the sky, where the world feels small, and all that matters is us.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SLEEP TOGETHER</div>
+            <div class="love-menu-item-description">Falling asleep next to each other, in a world that is ours.</div>
+            <div class="love-menu-item-tag">MUST</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">A PROMISE FOR TOMORROW</div>
+            <div class="love-menu-item-description">A reminder of the love we'll carry with us through every day.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-menu-section">
+        <div class="love-menu-section-title">Drinks</div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SPARKLING EYE CONTACT</div>
+            <div class="love-menu-item-description">Warm eye contact served with a side of butterflies.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">WARM CUDDLES COCOA</div>
+            <div class="love-menu-item-description">Comforting, cozy, and always available. Best when served under a blanket.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">PASSIONFRUIT PUNCH</div>
+            <div class="love-menu-item-description">Sweet, spicy, and a little wild.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">LAUGHTER TONIC</div>
+            <div class="love-menu-item-description">A bubbly blend of inside jokes and uncontrollable giggles.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">MIX COCKTAIL</div>
+            <div class="love-menu-item-description">Light and refreshing.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">KISSI COCKTAIL</div>
+            <div class="love-menu-item-description">A timeless drink. Sparkling with love, endless affection, and a twist of commitment.</div>
+            <div class="love-menu-item-tag">CHEF SPECIAL</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">SILENT SUPPORT SMOOTHIE</div>
+            <div class="love-menu-item-description">A soothing mix of empathy, patience, and being there without needing words.</div>
+          </div>
+        </div>
+        
+        <div class="love-menu-item">
+          <div>
+            <div class="love-menu-item-name">EVENING CHILL WINE</div>
+            <div class="love-menu-item-description">Perfect for slow nights, deep talks, and soft music.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-menu-notes">
+        <div class="love-menu-notes-title">Important Notes</div>
+        
+        <div class="love-menu-notes-item"><strong>HOLDINGS</strong><br>
+        This menu strictly belongs to Wifey. Not any single person is allowed to order form this Menu. Without permission of Wifey no one allowed to touch this menu.</div>
+        
+        <div class="love-menu-notes-item"><strong>RESERVATIONS</strong><br>
+        No need to book in advance. Just say "I miss you" and a table will always be ready.</div>
+        
+        <div class="love-menu-notes-item"><strong>MAJORS</strong><br>
+        Unlimited refills on hugs, kisses, and affection are included. Side effects may include uncontrollable smiling and heart flutters. Service is available 24/7, especially during emotional emergencies.</div>
+        
+        <div class="love-menu-notes-item"><strong>FEEDBACK</strong><br>
+        Positive reviews (hugs, kisses, happy tears) are encouraged and deeply appreciated. Your happiness is our five-star rating system.</div>
+      </div>
+      
+      <div class="love-menu-footer">
+        All love rights reserved by Wifey<br>
+        With deep love FOR
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+function showLoveBrusher() {
+  const modal = document.getElementById('poetryModal');
+  const title = document.getElementById('poetryTitle');
+  const content = document.getElementById('poetryContent');
+  title.textContent = 'THE LOVE LOUNGE';
+  
+  content.innerHTML = `
+    <div class="love-brusher">
+      <div class="love-brusher-title">THE LOVE LOUNGE</div>
+      <div class="love-brusher-subtitle">PARLOUR SPA & MASSAGE</div>
+      <div class="love-brusher-promise">"We will relax your heart & your soul, and pamper you with love and attention."</div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">SPECIAL CARE FOR YOUR HEART</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Our services are available 24/7 & 7 Days a week only for you</div>
+            <div class="love-brusher-item-description">Because make love anywhere anytime is our target.</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Book your Session</div>
+            <div class="love-brusher-item-description">"NOW"</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Our Speciality</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Massage Therapy – The 'I Miss You'</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">The Glow-Up – Lots of Kissies</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Manicure – Soft Gentle Touches</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Pedicure – Rub & Kisses</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Hair Styling – Relaxing Treatment</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Kiss Cleansing</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Forehead Glow</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Eye Brighten</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Face Glow</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Face</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Hair Treatments</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Special Massage</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Hair Styling</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Regular glow</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Party Makeover</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Seasoning Passion</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Bridal Look</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">No Makeup look</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-special">
+        <div class="love-brusher-special-title">50% OFF</div>
+        <div class="love-brusher-special-desc">Special discount on all services for my love</div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">HOW TO BOOK</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">www.I_Love_You.com</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Room # 1, Heart Floor, Main Office, Husband Building</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-offer">
+        <div class="love-brusher-offer-title">Love Offers & Schemes</div>
+        
+        <div class="love-brusher-offer-item">Buy 2 Session & get 1 kiss on voice note free</div>
+        <div class="love-brusher-offer-item">Buy 1 from every group & get 3 Special Kiss</div>
+        <div class="love-brusher-offer-item">Buy Full Body Treatment & get 1 Kiss Cleansing</div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Menicure & Pedicure</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Hand Massage</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Special Massage</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Nails Filing Polishing</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Full Hand Relaxing</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Massage Section</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Full Body Treatment</div>
+            <div class="love-brusher-item-price">50 Kiss</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Special Service</div>
+            <div class="love-brusher-item-price">100 Kiss</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-section">
+        <div class="love-brusher-section-title">Our Signature Packages</div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Breakfast in Bed</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Surprise Outing</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Candlelight Dinner</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Love letter Session</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Cuddle Therapy</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Rapid Kisses</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Simply say "I Need You"</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Send Kiss Emoji</div>
+          </div>
+        </div>
+        
+        <div class="love-brusher-item">
+          <div>
+            <div class="love-brusher-item-name">Look with Flirty Eyes</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="love-brusher-contact">
+        <div class="love-brusher-contact-item">Operational Hours: 24/7</div>
+        <div class="love-brusher-contact-item">Contact Us: +143-143-143</div>
+        <div class="love-brusher-contact-item">Email: LoveLounge@myheart.com</div>
+        <div class="love-brusher-contact-item">Address: Room # 1, Heart Floor, Main Office, Husband Building</div>
+      </div>
+      
+      <div class="love-brusher-footer">
+        "We are a love-focused experience designed for hearts in need of a little extra care and affection. Established with love, The Love Lounge is here to pamper, nurture, and spoil you with thoughtful treatments that remind you how special you are."
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+function showWithYouNote() {
+  const modal = document.getElementById('poetryModal');
+  const title = document.getElementById('poetryTitle');
+  const content = document.getElementById('poetryContent');
+  title.textContent = 'With You Note';
+  
+  content.innerHTML = `
+    <div class="with-you-note">
+      <div class="with-you-note-title">With You Note</div>
+      
+      <div class="with-you-note-content">
+        Love you, and always be. 
+        You're the most loving person I have met in my whole life. Sometimes you make me angry, and sometimes you make me irritate and more. But with all those circumstances you are the love of my life and you are always there when I need you, you are the shining star of my life, you are my lightning rod, you are everything to me and always be.
+      </div>
+      
+      <div class="with-you-note-section">
+        <div class="with-you-note-section-title">Without You</div>
+        <div class="with-you-note-content">
+          Without you I feel empty, vacant, unoccupied, uninhabited, untenanted, clear, free, bare, desolate, deserted, abandoned, containing nothing, without contents, unfilled, not filled, void, emptied, meaningless, aimless, worthless, useless, idle, vain, insubstantial, ineffective, ineffectual, futile, pointless, purposeless, motiveless, valueless, of no value, of no use, senseless, hollow, barren, unsatisfactory, unimportant, insignificant, inconsequential, trivial, trifling, nugatory, unload, unpack, unburden, disburden, clear, make vacant, vacate, evacuate, void, unlade.
+        </div>
+      </div>
+      
+      <div class="with-you-note-section">
+        <div class="with-you-note-section-title">With You</div>
+        <div class="with-you-note-content">
+          But with you I feel <span class="with-you-note-emphasis">happy, cheerful, joyful, jolly, gleeful, delighted, lucky</span>, deep affection, fondness, tenderness, warmth, intimacy, attachment, endearment, devotion, adoration, doting, idolization, worship, passion, yearning, infatuation, compassion, care, solicitude, concern, absolute, complete, utter, sheer, soulmate, improve, better, burnish, hone, refine, fine-tune, meliorate, damn, flaming, precious, confounded, pestilential, rotten, wretched, flipping, blinking, blooming, damned.
+        </div>
+      </div>
+      
+      <div class="with-you-note-content">
+        In the end I still can't resolve the mystery that how I have you in my life, I feel blessed when I think about that time when I first saw you I always thankful to ALLAH Almighty for having you in my life, my life is incomplete without you, those moment which I spend with you are the most beautiful moments of my life and so on.
+      </div>
+      
+      <div class="with-you-note-content">
+        Thank you for choosing me, thank you for being a part of my life, thank you for everything which I told you and also thank you for those which are untold by me or missed by my side.
+      </div>
+      
+      <div class="with-you-note-signature">
+        Thank you, *~_Wifeyyy_~*
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+function showFileViewer(type) {
+  // Open in a new tab
+  const newTab = window.open('', '_blank');
+  
+  if (type === 'currency') {
+    newTab.document.write(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Love Currency Note</title>
+        <style>
+          body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+          }
+          .file-viewer {
+            background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+          }
+          .file-viewer-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #800000;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+          }
+          @media (max-width: 640px) {
+          .file-viewer-title {
+            font-size: 24px;
+          }
+          }
+          .file-viewer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            border: 2px dashed rgba(128, 0, 0, 0.3);
+            min-height: 300px;
+          }
+          .file-viewer-placeholder {
+            font-size: 24px;
+            color: #555;
+            margin-bottom: 20px;
+          }
+          @media (max-width: 640px) {
+          .file-viewer-placeholder {
+            font-size: 20px;
+          }
+          }
+          .file-viewer-description {
+            font-size: 16px;
+            color: #777;
+            max-width: 400px;
+            margin: 0 auto 20px;
+          }
+          .file-viewer-download {
+            margin-top: 20px;
+          }
+          .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04);
+            transition: transform .12s ease, background .2s ease, border-color .2s ease;
+            text-decoration: none;
+            color: #333;
+          }
+          .btn:hover {
+            transform: translateY(-1px);
+            background: #f8f8f8;
+          }
+          .btn.primary {
+            background: #800000;
+            color: #fff;
+            border-color: #800000;
+          }
+          .btn.primary:hover {
+            background: #990000;
+          }
+          .pdf-preview {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+          }
+          @media (max-width: 640px) {
+          .pdf-preview {
+            height: 300px;
+          }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="file-viewer">
+          <div class="file-viewer-title">💸 Love Currency Note</div>
+          <div class="file-viewer-content">
+            <div class="file-viewer-placeholder">PDF Placeholder</div>
+            <div class="pdf-preview">
+              PDF Preview Area
+            </div>
+            <div class="file-viewer-description">
+              This is a placeholder for the Love Currency Note PDF file. 
+              Replace this with your actual PDF file.
+            </div>
+            <div class="file-viewer-download">
+              <a href="placeholder-love-currency.pdf" class="btn primary" download>
+                Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+  } else if (type === 'journey') {
+    newTab.document.write(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Our Journey – The Book</title>
+        <style>
+          body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+          }
+          .file-viewer {
+            background: linear-gradient(135deg, #f9e7fe, #e1f0ff);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+          }
+          .file-viewer-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #800000;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+          }
+          @media (max-width: 640px) {
+          .file-viewer-title {
+            font-size: 24px;
+          }
+          }
+          .file-viewer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            border: 2px dashed rgba(128, 0, 0, 0.3);
+            min-height: 300px;
+          }
+          .file-viewer-placeholder {
+            font-size: 24px;
+            color: #555;
+            margin-bottom: 20px;
+          }
+          @media (max-width: 640px) {
+          .file-viewer-placeholder {
+            font-size: 20px;
+          }
+          }
+          .file-viewer-description {
+            font-size: 16px;
+            color: #777;
+            max-width: 400px;
+            margin: 0 auto 20px;
+          }
+          .file-viewer-download {
+            margin-top: 20px;
+          }
+          .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04);
+            transition: transform .12s ease, background .2s ease, border-color .2s ease;
+            text-decoration: none;
+            color: #333;
+          }
+          .btn:hover {
+            transform: translateY(-1px);
+            background: #f8f8f8;
+          }
+          .btn.primary {
+            background: #800000;
+            color: #fff;
+            border-color: #800000;
+          }
+          .btn.primary:hover {
+            background: #990000;
+          }
+          .book-preview {
+            width: 200px;
+            height: 280px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #800000;
+            font-size: 18px;
+            font-weight: bold;
+          }
+          @media (max-width: 640px) {
+          .book-preview {
+            width: 150px;
+            height: 210px;
+            font-size: 16px;
+          }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="file-viewer">
+          <div class="file-viewer-title">📖 Our Journey – The Book</div>
+          <div class="file-viewer-content">
+            <div class="file-viewer-placeholder">Book Placeholder</div>
+            <div class="book-preview">
+              Our Journey
+            </div>
+            <div class="file-viewer-description">
+              This is a placeholder for the Our Journey book. 
+              Replace this with your actual book file (PDF or JPEG).
+            </div>
+            <div class="file-viewer-download">
+              <a href="placeholder-our-journey.pdf" class="btn primary" download>
+                Download Book
+              </a>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+  }
+  
+  newTab.document.close();
+}
+function closePoetry() {
+document.getElementById('poetryModal').classList.remove('open');
+}
+</script>
+<div class="overlay" id="poetryModal">
+<div class="modal card" style="padding:22px; max-width:600px; max-height:85vh; display:flex; flex-direction:column;">
+<h2 id="poetryTitle" style="margin-top:0;"></h2>
+<div id="poetryContent" class="modal-content" style="white-space:pre-wrap; line-height:1.7; margin-top:12px;"></div>
+<div class="modal-footer">
+<button class="btn" onclick="closePoetry()">Close</button>
+</div>
+</div>
+</div>
+</body>
+</html>
